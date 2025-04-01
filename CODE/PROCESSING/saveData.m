@@ -14,7 +14,7 @@ function [satellites, storeData, model_save] = ...
 %   Adjust          struct, contains adjustment-specific data
 %   model           struct, contains all modeled error-sources
 %   model_save      struct, collects all modeled errors from model
-%	HMW_12,...      matrix, Hatch-Melbourne-Wübbena LC observables
+%	HMW_12,...      matrix, Hatch-Melbourne-WÃ¼bbena LC observables
 % OUTPUT:
 %   satellites, storeData, model_save
 %                   updated with data of the current epoch
@@ -39,7 +39,7 @@ decoupled_clock_model = strcmp(settings.IONO.model, 'Estimate, decoupled clock')
 %% satellite variables
 satellites.obs(q,prns)  = Epoch.tracked(prns);  	% save number of epochs satellite is tracked
 satellites.elev(q,prns) = model.el(:,1);	% save elevation of satellites
-satellites.az  (q,prns) = model.az(:,1); 	% save azimuth [°] of satellites
+satellites.az  (q,prns) = model.az(:,1); 	% save azimuth [Â°] of satellites
 
 % Save Carrier-to-Noise density
 if ~isempty(Epoch.S1)
@@ -223,7 +223,7 @@ if settings.AMBFIX.bool_AMBFIX
         storeData.N3_fixed(q,prns) = Adjust.N3_fixed;     % fixed ambiguity 3rd frequency
         storeData.iono_fixed(q,prns) = Adjust.iono_fix;   % fixed ionospheric delay estimation
     end
-    % save Hatch-Melbourne-Wübbena LCs
+    % save Hatch-Melbourne-WÃ¼bbena LCs
     storeData.HMW_12(q,prns) = HMW_12(q,prns);
     if proc_frqs >= 2
         storeData.HMW_23(q,prns) = HMW_23(q,prns);
@@ -302,7 +302,7 @@ storeData.exclude(q,prns)  = any(Epoch.exclude, 2);     % true if satellite's ob
 
 
 %% save satellite status
-storeData.sat_status(q,prns) = Epoch.sat_status;
+storeData.sat_status(q,prns) = any(Epoch.sat_status, 2);
 
 
 %% save modelled error-sources (into model_save)
